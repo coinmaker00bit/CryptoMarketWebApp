@@ -1,0 +1,17 @@
+.navbar-brand {
+  font-weight: bold;
+  text-shadow: 1px 1px grey;
+  padding-left: 25px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
+}
