@@ -1,0 +1,277 @@
+<html>
+  <head>
+    <title>CoinGecko</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Bootstrap.css">
+
+<script>
+let BASE_URL = "https://api.coingecko.com/api/v3/";
+let ENDPOINT = "coins/markets?vs_currency=usd&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C%2024h%2C%207d";
+let url = BASE_URL + ENDPOINT
+</script>
+
+<script>
+
+const CG1 = new Intl.NumberFormat('en-US',{
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2,
+})
+const CG2 = new Intl.NumberFormat('en-US',{
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2,
+})
+//format for larger numbers
+const CG3 = new Intl.NumberFormat('en-US',{
+  style: 'currency',
+  currency: 'USD',
+  maximumFractionDigits: 2,
+  })
+const CG4 = new Intl.NumberFormat('en-US',{
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits:2,
+    })
+
+</script>
+  <div class="container">
+<script>
+      let api = 0
+       fetch(url)
+       .then(res => {
+
+          res.json().then(data => {
+              api = data;
+              console.log(api);
+
+              let table = $("#outputtable");
+              table.html("");
+              $.each(api,function(index,value){
+
+                $("<td/>").html( value.market_cap_rank).appendTo(table);
+                $("<td/>").html( "<img src='"+value.image+"' width = '15px' height = '15px'>" + value.name + " | (" +  (value.symbol.toUpperCase()) +")" ).appendTo(table);
+                $("<td/>").html( CG2.format(value.current_price)).appendTo(table);
+                $("<td/>").html(value.price_change_percentage_1h_in_currency.toFixed(1)).appendTo(table);
+                $("<td/>").html(value.price_change_percentage_24h.toFixed(1)).appendTo(table);
+                $("<td/>").html(value.price_change_percentage_7d_in_currency).appendTo(table);
+                $("<td/>").html( CG1.format(value.total_volume)).appendTo(table);
+                $("<td/>").html( CG1.format(value.market_cap)).appendTo(table);
+
+
+                if (value.price_change_percentage_24h.toFixed(1) > 0 || value.price_change_percentage_24h.toFixed(1) == 0) {
+
+                  $("<td/>").html( "<span class= 'green'>" +value.price_change_percentage_24h.toFixed(1) + "% </span>").appendTo(table);
+                    } else {
+
+                      $("<td/>").html( "<span class= 'red'>" +value.price_change_percentage_24h.toFixed(1) + "% </span>").appendTo(table);
+                    }
+
+                  $("<tr/>").html(value.sparkline_in_7d).appendTo(table);
+                      console.log(table);
+                    });
+                    });
+
+                    })
+    </script>
+  </div>
+  </head>
+
+<body>
+<!--- navbar 1 --->
+
+    <hr>
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+    <button class="navbar-toggler" type ="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">EN</a>
+  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <a class="dropdown-item" href="#">Action</a>
+        <a class="dropdown-item" href="#">Another action</a>
+  <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="#">Something else here</a>
+  </div>
+  </li>
+
+  <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">USD</a>
+  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <a class="dropdown-item" href="#">Action</a>
+      <a class="dropdown-item" href="#">Another action</a>
+  <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="#">Something else here</a>
+  </div>
+  </li>
+
+  <li class="nav-item active">
+      <a class="nav-link" href="#">Help <span class="sr-only">(current)</span></a>
+  </li>
+
+  <li class="nav-item active">
+      <a class="nav-link" href="#">Sign In <span class="sr-only">(current)</span></a>
+  </li>
+
+  <li class="nav-item active">
+      <a class="nav-link" href="#">Sign Up <span class="sr-only">(current)</span></a>
+  </li>
+</div>
+</nav>
+<!---end navbar1--->
+<!---navbar2--->
+
+<div class="$container-large-desktop">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+<a class="navbar-brand" href="#">CoinGecko</a>
+
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse">
+  <ul class="navbar-nav mr-auto">
+    <li class="nav-item active">
+      <a class="nav-link" href="#">Home</a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="#">Markets</a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="#">DeFi</a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="#">Farms</a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="#">Exchanges</a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="#">News</a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="#">Tools</a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="#">Resources</a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="#">Learn</a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="#">Community</a>
+    </li>
+  </ul>
+
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+</div>
+
+<!---end navbar2--->
+<!---Navbar 3--->
+<div class="container">
+<span>Coins:</span>
+<span>Exchanges:</span>
+<span>Market Cap:</span>
+<span>24h Vol:</span>
+<span>Dominance:</span>
+<span>ETH Gas:</span>
+</div>
+<!---end navbar3--->
+<!---Title--->
+<br>
+<div class="container">
+  <h1>Top 100 Coins by Market Capitalization</h1>
+</div>
+<br>
+<!---end Title--->
+<!--- navbar4--->
+<div class="col filter no-gutters d-flex flex-column flex-lg-row justify-content-between align-items-center my-1">
+  <div class="d-flex filter align-self-center">
+    <div class="mr-1">
+      <a href="#" class="btn btn-primary dropdown-toggle currency-selected" data-toggle="dropdown" data-flip="false" aria-expanded="false">
+        <span>USD</span>
+      </a>
+    </div>
+
+<div class="btn-group btn-group-sm align-self-end" role="group" aria-label="Filter" data-controller="favorites">
+  <button type="button" class="btn btn-secondary">
+    <span>Filter</span>
+  </button>
+  <a class="btn btn-secondary">
+    <i type="solid" class="fas star-color mr-2 fa-star"></i>
+      <span>Portfolio</span>
+  </a>
+  <a class="btn btn-secondary">
+    <i type="solid" class="fas star-color mr-2 fa-globe"></i>Explore All Coins
+  </a>
+  <a class="btn btn-secondary">
+    <i type="solid" class="fas star-color mr-2 fa-circle"></i>Recently Added
+  </a>
+</div>
+</div>
+
+<div class="d-flex mt-2 mt-lg-0">
+<div class="btn-group btn-group-sm btn-mobile align-self-end" role="group">
+  <a class="btn btn-secondary active">Market</a>
+  <a class="btn btn-secondary ">
+    <span class="d-none d-md-inline">All-Time High</span><span class="d-md-none">ATH</span>
+  </a> <a class="btn btn-secondary ">Developer</a>
+  <a class="btn btn-secondary ">Social</a>
+</div>
+
+<div class="ml-2">
+<div class="btn-group btn-group-sm btn-mobile align-self-end">
+  <a class="px-3 py-1 btn btn-secondary disabled" href="/en?page">
+  <i class="far align-bottom fa-far fa-angle-left"></i>
+  <
+</a>
+  <a class="px-3 py-1 btn btn-secondary " href="/en?page=2">
+  <i class="far align-bottom fa-far fa-angle-right"></i>
+  >
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!--- end navbar 4--->
+<!--- table--->
+
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+      <th class="th-sm">#</th>
+      <th class="th-sm">Coin</th>
+      <th class="th-sm">Price</th>
+      <th class="th-sm">1h</th>
+      <th class="th-sm">24h</th>
+      <th class="th-sm">7d</th>
+      <th class="th-sm">24h Volume</th>
+      <th class="th-sm">Mkt Cap</th>
+      <th class="th-sm">Last 7 Days</th>
+    </tr>
+  </thead>
+
+  <tbody id="outputtable">
+    <tr>
+      <td class="table-number text-center text-xs table-active"></td>
+
+    </tr>
+  </tbody>
+</table>
+
+
+  </body>
+
+</html>
